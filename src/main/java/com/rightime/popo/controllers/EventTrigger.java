@@ -12,6 +12,6 @@ public class EventTrigger {
 
     @Scheduled(cron = "*/5 * * * * *")
     public void tick() throws Exception {
-        eventProducer.sendMessage("Time to work");
+        eventProducer.sendMessage("WORK");
     }
 }
