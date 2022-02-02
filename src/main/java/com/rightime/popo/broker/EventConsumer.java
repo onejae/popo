@@ -2,6 +2,8 @@ package com.rightime.popo.broker;
 
 import com.rightime.popo.controllers.JobCreator;
 import com.rightime.popo.domain.entity.CrawlJob;
+import com.rightime.popo.domain.usecase.CrawlUsecase;
+import com.rightime.popo.presenter.HuvUtza;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,10 @@ class EventConsumerConfig {
     @Value("${kafka.bootstrapAddress}")
     private String bootstrapAddress;
 
-    @Value("${kafka.topics.trigger.name")
+    @Value("${kafka.topics.trigger.name}")
     private String triggerTopicName;
 
-    @Value("${kafka.topics.job.name")
+    @Value("${kafka.topics.job.name}")
     private String jobTopicName;
 
     @Value("${kafka.topics.trigger.group.id}")
@@ -54,6 +56,7 @@ class EventConsumerConfig {
     crawlJobKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, CrawlJob> factory
                 = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConcurrency(3);
         factory.setConsumerFactory(crawlJobConsumerFactory());
         return factory;
     }
@@ -63,6 +66,9 @@ class EventConsumerConfig {
 public class EventConsumer {
     @Autowired
     private JobCreator jobCreator;
+
+    @Autowired
+    private CrawlUsecase crawlUsecase;
 
     @KafkaListener(topics = "${kafka.topics.trigger.name}", id = "${kafka.topics.trigger.group.id}")
     public void consume(String message) {
@@ -74,8 +80,8 @@ public class EventConsumer {
     }
 
     @KafkaListener(topics = "${kafka.topics.job.name}", id = "${kafka.topics.job.group.id}", containerFactory = "crawlJobKafkaListenerContainerFactory")
-    public void consume(@Payload CrawlJob job) {
-        System.out.println(job);
+    public void consume(@Payload CrawlJob job) throws InterruptedException {
+        job.crawl();
     }
 }
 

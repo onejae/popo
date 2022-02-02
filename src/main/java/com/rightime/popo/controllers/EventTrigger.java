@@ -10,7 +10,7 @@ public class EventTrigger {
     @Autowired
     private EventProducer eventProducer;
 
-    @Scheduled(cron = "*/5 * * * * *")
+    @Scheduled(cron = "*/1 * * * * *")
     public void tick() throws Exception {
         eventProducer.sendMessage("WORK");
     }
