@@ -5,8 +5,10 @@ create table postitem (
     url varchar(512),
     views int,
     site_id int,
+    board_id int,
     primary key(id),
-    foreign key(site_id) references site (id)
+    foreign key(site_id) references site (id),
+    foreign key(board_id) references board (id)
 );
 
 

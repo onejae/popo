@@ -1,9 +1,8 @@
 package com.rightime.popo.broker;
 
 import com.rightime.popo.controllers.JobCreator;
+import com.rightime.popo.controllers.JobWorker;
 import com.rightime.popo.domain.entity.CrawlJob;
-import com.rightime.popo.domain.usecase.CrawlUsecase;
-import com.rightime.popo.presenter.HuvUtza;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,7 @@ class EventConsumerConfig {
     @Value("${kafka.topics.job.group.id}")
     private String jobGroupId;
 
+
     @Bean
     public ConsumerFactory<String, CrawlJob> crawlJobConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -68,7 +68,7 @@ public class EventConsumer {
     private JobCreator jobCreator;
 
     @Autowired
-    private CrawlUsecase crawlUsecase;
+    private JobWorker jobWorker;
 
     @KafkaListener(topics = "${kafka.topics.trigger.name}", id = "${kafka.topics.trigger.group.id}")
     public void consume(String message) {
@@ -81,7 +81,7 @@ public class EventConsumer {
 
     @KafkaListener(topics = "${kafka.topics.job.name}", id = "${kafka.topics.job.group.id}", containerFactory = "crawlJobKafkaListenerContainerFactory")
     public void consume(@Payload CrawlJob job) throws InterruptedException {
-        job.crawl();
+        this.jobWorker.assignJob(job);
     }
 }
 

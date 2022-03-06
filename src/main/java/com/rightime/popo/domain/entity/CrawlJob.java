@@ -1,5 +1,7 @@
 package com.rightime.popo.domain.entity;
 
+import java.util.ArrayList;
+
 public interface CrawlJob {
-    void crawl();
+    ArrayList<PostItem> crawl();
 }

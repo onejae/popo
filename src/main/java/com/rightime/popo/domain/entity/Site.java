@@ -18,9 +18,12 @@ public class Site implements CrawlJob {
         this.boardList.add(board);
     }
 
-    public void crawl() {
+    public ArrayList<PostItem> crawl() {
+        ArrayList<PostItem> postItems = new ArrayList<>();
         for (Board board : this.boardList) {
-            board.crawl();
+            postItems.addAll(board.crawl());
         }
+
+        return postItems;
     }
 }

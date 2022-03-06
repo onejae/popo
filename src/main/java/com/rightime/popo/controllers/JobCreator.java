@@ -1,11 +1,10 @@
 package com.rightime.popo.controllers;
 
 import com.rightime.popo.broker.EventProducer;
-import com.rightime.popo.database.JobScheduleRepoMysql;
 import com.rightime.popo.domain.entity.CrawlJob;
 import com.rightime.popo.domain.entity.Site;
-import com.rightime.popo.domain.usecase.CrawlUsecase;
 import com.rightime.popo.domain.usecase.JobScheduleUsecase;
+import com.rightime.popo.presenter.repo.JobScheduleRepoMysql;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,16 +17,18 @@ public class JobCreator {
     private EventProducer eventProducer;
 
     @Autowired
-    private CrawlUsecase crawlUsecase;
-
     private JobScheduleUsecase jobScheduleUsecase;
 
     private ArrayList<Site> siteList;
 
 
+    @Autowired
+    public void setRepo(JobScheduleRepoMysql jobScheduleRepoMysql) {
+        this.jobScheduleUsecase.jobScheduleRepo = jobScheduleRepoMysql;
+    }
+
     public JobCreator() {
         this.siteList = new ArrayList<Site>();
-        this.jobScheduleUsecase = new JobScheduleUsecase(new JobScheduleRepoMysql());
     }
 
     public void createJob() {

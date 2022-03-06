@@ -3,16 +3,9 @@ package com.rightime.popo.domain.entity;
 public abstract class Board implements CrawlJob {
     public String name;
     public String url;
-    private String pageParamName;
+    public String method;
+    public String pageParamName;
     public int workingPage;
-
-    public String getPageParamName() {
-        return pageParamName;
-    }
-
-    public void setPageParamName(String pageParamName) {
-        this.pageParamName = pageParamName;
-    }
 
     public Board() {
 
@@ -21,6 +14,7 @@ public abstract class Board implements CrawlJob {
     public Board(String name, String url) {
         this.name = name;
         this.url = url;
+        this.method = "GET";
     }
 
     public Board(String name, String url, String pageParamName, int startPage) {

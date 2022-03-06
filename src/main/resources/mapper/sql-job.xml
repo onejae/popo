@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rightime.popo.presenter.db.mapper.JobMapper">
+    <select id="findJobByAvailability" parameterType="boolean" resultType="com.rightime.popo.presenter.db.dto.JobData">
+        <![CDATA[
+        select
+            id, job_type_id, created_at, modified_at
+        from job
+        where enabled=#{availability}
+        ]]>
+    </select>
+</mapper>
