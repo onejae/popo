@@ -33,7 +33,7 @@ public class JobCreator {
 
     public void createJob() {
         // check job schedule
-        CrawlJob[] jobs = jobScheduleUsecase.findJobsOnSchedule(new Date());
+        CrawlJob[] jobs = jobScheduleUsecase.startJobsOnSchedule(new Date());
 
         if (jobs != null) {
             for (CrawlJob job : jobs) {

@@ -84,4 +84,3 @@ public class EventConsumer {
         this.jobWorker.assignJob(job);
     }
 }
-
