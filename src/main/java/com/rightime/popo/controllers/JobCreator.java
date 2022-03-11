@@ -1,7 +1,7 @@
 package com.rightime.popo.controllers;
 
 import com.rightime.popo.broker.EventProducer;
-import com.rightime.popo.domain.entity.CrawlJob;
+import com.rightime.popo.domain.entity.Crawler;
 import com.rightime.popo.domain.entity.Site;
 import com.rightime.popo.domain.usecase.JobScheduleUsecase;
 import com.rightime.popo.presenter.repo.JobScheduleRepoMysql;
@@ -28,15 +28,15 @@ public class JobCreator {
     }
 
     public JobCreator() {
-        this.siteList = new ArrayList<Site>();
+        this.siteList = new ArrayList<>();
     }
 
     public void createJob() {
         // check job schedule
-        CrawlJob[] jobs = jobScheduleUsecase.startJobsOnSchedule(new Date());
+        Crawler[] jobs = jobScheduleUsecase.startJobsOnSchedule(new Date());
 
         if (jobs != null) {
-            for (CrawlJob job : jobs) {
+            for (Crawler job : jobs) {
                 if (job != null) {
                     eventProducer.sendMessage(job);
                 }

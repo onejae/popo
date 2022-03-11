@@ -20,7 +20,6 @@ import java.util.List;
 
 public class HuvUtza extends Board {
 
-
     @Override
     public ArrayList<PostItem> crawl() {
         // every time crawling, it starts from the last page finished

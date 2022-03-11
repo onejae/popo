@@ -1,12 +1,11 @@
 package com.rightime.popo.domain.repo;
 
 import com.rightime.popo.domain.entity.CrawlJob;
-import com.rightime.popo.domain.entity.JobSchedule;
 
 public interface JobScheduleRepo {
-    public JobSchedule[] load();
+    CrawlJob[] load();
 
-    public boolean store(JobSchedule jobSchedule);
+    boolean store(CrawlJob crawlJob);
 
-    public CrawlJob[] findJobsEnabled();
+    CrawlJob[] findJobsEnabled();
 }

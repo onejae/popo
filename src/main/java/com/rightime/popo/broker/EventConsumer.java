@@ -2,7 +2,7 @@ package com.rightime.popo.broker;
 
 import com.rightime.popo.controllers.JobCreator;
 import com.rightime.popo.controllers.JobWorker;
-import com.rightime.popo.domain.entity.CrawlJob;
+import com.rightime.popo.domain.entity.Crawler;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ class EventConsumerConfig {
 
 
     @Bean
-    public ConsumerFactory<String, CrawlJob> crawlJobConsumerFactory() {
+    public ConsumerFactory<String, Crawler> crawlJobConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, jobGroupId);
@@ -52,9 +52,9 @@ class EventConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, CrawlJob>
+    public ConcurrentKafkaListenerContainerFactory<String, Crawler>
     crawlJobKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, CrawlJob> factory
+        ConcurrentKafkaListenerContainerFactory<String, Crawler> factory
                 = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConcurrency(3);
         factory.setConsumerFactory(crawlJobConsumerFactory());
@@ -80,7 +80,7 @@ public class EventConsumer {
     }
 
     @KafkaListener(topics = "${kafka.topics.job.name}", id = "${kafka.topics.job.group.id}", containerFactory = "crawlJobKafkaListenerContainerFactory")
-    public void consume(@Payload CrawlJob job) throws InterruptedException {
+    public void consume(@Payload Crawler job) throws InterruptedException {
         this.jobWorker.assignJob(job);
     }
 }
