@@ -9,15 +9,13 @@ insert into job_type values (1, 'Board'), (2, 'Site');
 
 create table job (
     id int not null auto_increment primary key,
-    job_type_id int not null references job_type (id),
-    board_id int not null references board (id),
-    site_id int not null references site (id),
+    job_object_id int not null references object (id),
     enabled boolean not null,
     created_at datetime not null default current_timestamp,
     modified_at datetime not null default current_timestamp on update current_timestamp
 );
 
-insert into job (job_type_id, board_id, site_id, enabled) values (1, 1, 1, true);
+insert into job (job_object_id, enabled) values (2, true);
 
 create table schedule (
     id int primary key references job (id),
