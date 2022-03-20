@@ -4,24 +4,23 @@ package com.rightime.popo.domain.usecase;
 import com.rightime.popo.domain.entity.Crawler;
 import com.rightime.popo.domain.entity.CrawlJob;
 import com.rightime.popo.domain.repo.JobScheduleRepo;
-import org.springframework.stereotype.Component;
+import com.rightime.popo.domain.service.MessageService;
 
 import java.util.Date;
 
-@Component
 public class JobScheduleUsecase {
     public JobScheduleRepo getJobScheduleRepo() {
         return jobScheduleRepo;
     }
 
-    public JobScheduleRepo jobScheduleRepo;
-    public CrawlJob[] crawlJobs;
-//    public MessageService messageService;
+    private JobScheduleRepo jobScheduleRepo;
+    private CrawlJob[] crawlJobs;
+    private MessageService messageService;
 
-//    public JobScheduleUsecase(JobScheduleRepo jobScheduleRepo) {
-//        this.jobScheduleRepo = jobScheduleRepo;
-//        this.jobSchedules = jobScheduleRepo.load();
-//    }
+    public JobScheduleUsecase(JobScheduleRepo jobScheduleRepo, MessageService messageService) {
+        this.jobScheduleRepo = jobScheduleRepo;
+        this.messageService = messageService;
+    }
 
     public Crawler[] startJobsOnSchedule(Date date) {
         CrawlJob[] jobs = jobScheduleRepo.findJobsEnabled();
@@ -32,7 +31,7 @@ public class JobScheduleUsecase {
         }
 
         for (CrawlJob job : jobs) {
-//            messageService.BroadcastJob(job);
+            messageService.appendJob(job);
         }
 
         return null;

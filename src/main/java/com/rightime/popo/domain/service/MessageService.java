@@ -1,11 +1,16 @@
 package com.rightime.popo.domain.service;
 
-import com.rightime.popo.domain.entity.Crawler;
+import com.rightime.popo.domain.entity.CrawlJob;
+
 
 public interface MessageService {
-    void Broadcast(String message);
+    void broadcast(String message);
 
-    void SendTo(String to, String message);
+    void sendTo(String to, String message);
 
-    void BroadcastJob(Crawler job);
+    void appendJob(CrawlJob job);
+
+    void setHandler(String evnetName, MessageHandler messageHandler);
 }
+
+

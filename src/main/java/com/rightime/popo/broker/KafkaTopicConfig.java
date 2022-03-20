@@ -16,9 +16,6 @@ public class KafkaTopicConfig {
     @Value("${kafka.bootstrapAddress}")
     private String bootstrapServers;
 
-    @Value("${kafka.topics.trigger.name}")
-    private String triggerTopicName;
-
     @Value("${kafka.topics.job.name}")
     private String jobTopicName;
 
@@ -26,18 +23,10 @@ public class KafkaTopicConfig {
     private int jobPartitions;
 
     @Bean
-    public NewTopic generalTopic() {
-        return TopicBuilder.name(triggerTopicName)
-                .partitions(1)
-                .replicas(1)
-                .build();
-    }
-
-    @Bean
     public NewTopic userTopic() {
         return TopicBuilder.name(jobTopicName)
                 .partitions(jobPartitions)
-                .replicas(1)
+                .replicas(3)
                 .build();
     }
 

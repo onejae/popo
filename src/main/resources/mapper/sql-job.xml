@@ -5,7 +5,7 @@
     <select id="findJobByAvailability" parameterType="boolean" resultType="com.rightime.popo.presenter.db.dto.JobData">
         <![CDATA[
         select
-            id, job_type_id, created_at, modified_at
+            id, job_object_id, created_at, modified_at
         from job
         where enabled=#{availability}
         ]]>
