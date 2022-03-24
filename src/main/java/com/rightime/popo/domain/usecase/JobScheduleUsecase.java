@@ -1,12 +1,14 @@
 package com.rightime.popo.domain.usecase;
 
 
-import com.rightime.popo.domain.entity.Crawler;
 import com.rightime.popo.domain.entity.CrawlJob;
+import com.rightime.popo.domain.entity.CrawlObject;
+import com.rightime.popo.domain.repo.CrawlObjectRepo;
 import com.rightime.popo.domain.repo.JobScheduleRepo;
 import com.rightime.popo.domain.service.MessageService;
 
 import java.util.Date;
+import java.util.stream.Stream;
 
 public class JobScheduleUsecase {
     public JobScheduleRepo getJobScheduleRepo() {
@@ -14,26 +16,25 @@ public class JobScheduleUsecase {
     }
 
     private JobScheduleRepo jobScheduleRepo;
-    private CrawlJob[] crawlJobs;
+    private CrawlObjectRepo crawlObjectRepo;
     private MessageService messageService;
 
-    public JobScheduleUsecase(JobScheduleRepo jobScheduleRepo, MessageService messageService) {
+    public JobScheduleUsecase(JobScheduleRepo jobScheduleRepo, MessageService messageService, CrawlObjectRepo crawlObjectRepo) {
         this.jobScheduleRepo = jobScheduleRepo;
         this.messageService = messageService;
+        this.crawlObjectRepo = crawlObjectRepo;
     }
 
-    public Crawler[] startJobsOnSchedule(Date date) {
-        CrawlJob[] jobs = jobScheduleRepo.findJobsEnabled();
+    public CrawlJob[] startJobsOnSchedule(Date date) {
+        CrawlJob[] crawlJobs = jobScheduleRepo.findJobsEnabled();
+        Stream.of(crawlJobs).forEach(job -> messageService.appendJob(job));
 
-        // at this stage, all enabled jobs will be executed, just ignoring schedule
-        if (jobs == null) {
-            return null;
-        }
+        return crawlJobs;
+    }
 
-        for (CrawlJob job : jobs) {
-            messageService.appendJob(job);
-        }
+    public CrawlObject getCrawlObjectById(int jobObjectId) {
+        CrawlObject crawlObject = crawlObjectRepo.getObjectById(jobObjectId);
 
-        return null;
+        return crawlObject;
     }
 }

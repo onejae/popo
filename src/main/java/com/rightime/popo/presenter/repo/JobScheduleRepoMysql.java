@@ -35,7 +35,7 @@ public class JobScheduleRepoMysql implements JobScheduleRepo {
         int i = 0;
 
         for (JobData jobData : jobDataArrayList) {
-            crawlJobs[i++] = ModelMapper.INSTANCE.JobDataToEntity(jobData);
+            crawlJobs[i] = ModelMapper.INSTANCE.JobDataToEntity(jobData);
         }
 
         return crawlJobs;

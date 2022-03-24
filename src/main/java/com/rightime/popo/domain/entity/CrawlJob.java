@@ -5,9 +5,7 @@ import java.util.Date;
 
 public class CrawlJob {
     public int id;
-    public String jobType;
-
-    private Crawler[] jobList;
+    public int jobObjectId;
 
     public boolean checkWithDatetime(Date date) {
         return true;

@@ -2,7 +2,7 @@ package com.rightime.popo.domain.entity;
 
 import java.util.ArrayList;
 
-public class Site implements Crawler {
+public class Site implements CrawlObject {
     public String url;
     public String name;
     private ArrayList<Board> boardList;

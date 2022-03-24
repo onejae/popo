@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rightime.popo.presenter.db.mapper.CrawlObjectMapper">
+    <select id="getCrawlObjectById" parameterType="int" resultType="com.rightime.popo.presenter.db.dto.CrawlObjectData">
+        <![CDATA[
+        select o.id, t.name from object o left join object_type t on o.object_type_id=t.id where o.id=#{id}
+        ]]>
+    </select>
+</mapper>

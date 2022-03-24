@@ -1,6 +1,6 @@
 package com.rightime.popo.domain.entity;
 
-public abstract class Board implements Crawler {
+public abstract class Board implements CrawlObject {
     public String name;
     public String url;
     public String method;
